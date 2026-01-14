@@ -1,0 +1,40 @@
+# CLAUDE.md
+
+This file configures Claude Code for your vault.
+
+## Folder Structure
+
+```
+daily/              # Daily notes
+daily/today.md      # Current day (always here)
+daily/archive/      # Previous days (YYYY/MM-month/)
+daily/templates/    # Note templates
+projects/           # Project notes (optional)
+```
+
+## Daily Note
+
+- Today's note is always: `daily/today.md`
+- Archive location: `daily/archive/YYYY/MM-month/YYYY-MM-DD.md`
+- Template: `daily/templates/daily-template.md`
+
+## Morning Routine
+
+Run `/start-my-day` to:
+1. Archive yesterday's note
+2. Create fresh today.md
+3. Process brain dump section
+4. Suggest priorities
+
+## Quick Commands
+
+| Say | Claude Does |
+|-----|-------------|
+| `/start-my-day` | Full morning routine |
+| "process my brain dump" | Extract tasks from Brain Dump section |
+| "what should I focus on?" | Suggest priorities based on today.md |
+| "carry forward" | Move incomplete tasks to today |
+
+---
+
+*Customize this file to match your vault structure.*
