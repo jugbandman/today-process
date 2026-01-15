@@ -1,258 +1,352 @@
 # Setup Guide
 
-Complete setup from scratch. Pick your path and follow the steps.
+Connect Claude to your files for the full Today Process experience.
 
 ---
 
 ## Choose Your Path
 
-| Path | What You Need | Setup Time | Daily Effort |
-|------|---------------|------------|--------------|
-| **A: Full Automation** | Obsidian + VS Code + Claude Code | 2-3 hours | 5 min (automated) |
-| **B: Obsidian Only** | Obsidian + claude.ai browser | 1 hour | 10 min (copy/paste) |
-| **C: Minimal** | Any text editor + claude.ai | 15 min | 10 min (copy/paste) |
+| Path | Best For | Setup Time | What You Get |
+|------|----------|------------|--------------|
+| **Claude Desktop + MCP** | Non-coders, simple setup | 30 min | File read/write, manual commands |
+| **Claude Code** | Power users, developers | 1-2 hours | Full automation, skills, git integration |
+| **Just Obsidian** | Want to try first | 15 min | Copy/paste workflow (no file access) |
 
-**Recommendation:** Start with Path C to learn the methodology. Upgrade to A when you're hooked.
+**The unlock is file access.** Both Claude Desktop and Claude Code can read/write your notes directly. That's what makes staleness tracking and backlog management possible.
 
 ---
 
-# Path A: Full Automation
+# Path A: Claude Desktop + MCP (Recommended for Most)
 
-## A1: Install Obsidian
+## A1: Install Claude Desktop
 
-[Obsidian](https://obsidian.md) is a note-taking app that stores everything as plain markdown files.
+1. Download from [claude.ai/download](https://claude.ai/download)
+2. Install and sign in with your Anthropic account
 
-1. Download from [obsidian.md](https://obsidian.md)
-2. Install and open
-3. Create a new vault:
-   - Click "Create new vault"
-   - Name it (e.g., "Notes" or "Second Brain")
-   - Choose location (Documents folder works)
+## A2: Create Your Notes Folder
 
-## A2: Install VS Code
+Create a folder for your daily notes:
 
-[VS Code](https://code.visualstudio.com) is the interface for Claude Code.
+```
+~/Documents/today-process/
+├── daily/
+│   ├── today.md
+│   └── archive/
+├── _backlog.md
+└── templates/
+    └── daily-template.md
+```
 
-1. Download from [code.visualstudio.com](https://code.visualstudio.com)
-2. Install and open
+Or use an existing Obsidian vault - just note the path.
 
-## A3: Install Claude Code
+## A3: Configure MCP Filesystem Access
 
-Claude Code is an AI assistant that reads and writes files in your vault.
+Claude Desktop uses MCP (Model Context Protocol) to access local files.
 
-**Via VS Code Extension:**
-1. Open VS Code
-2. Click Extensions (puzzle piece icon, left sidebar)
-3. Search "Claude Code"
-4. Install the Anthropic extension
-5. Sign in with your Anthropic account
+1. Open Claude Desktop settings
+2. Navigate to Developer settings
+3. Edit the MCP configuration file (or create it):
 
-**Via Command Line (alternative):**
+**Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+**Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+
+Add this configuration:
+
+```json
+{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/YOUR_USERNAME/Documents/today-process"
+      ]
+    }
+  }
+}
+```
+
+**Replace `/Users/YOUR_USERNAME/Documents/today-process`** with your actual folder path.
+
+See [templates/claude-desktop-config.json](../templates/claude-desktop-config.json) for the full template.
+
+## A4: Restart Claude Desktop
+
+Quit and reopen Claude Desktop. You should see a hammer icon indicating MCP tools are available.
+
+## A5: Test File Access
+
+In Claude Desktop, type:
+
+```
+Read the file at daily/today.md and tell me what's there
+```
+
+If Claude reads your file, you're connected.
+
+## A6: Copy Templates
+
+Copy these to your notes folder:
+- [templates/daily-template.md](../templates/daily-template.md) → `templates/`
+- [templates/backlog-template.md](../templates/backlog-template.md) → rename to `_backlog.md`
+
+## A7: Your Daily Workflow
+
+**Morning:**
+```
+Start my day. Read yesterday's note, check the backlog, and help me
+create today.md. Here's my brain dump: [paste or type your thoughts]
+```
+
+**End of day:**
+```
+Review today.md. What didn't get done? Help me decide:
+carry forward to tomorrow, push to backlog, or archive?
+```
+
+**Weekly (Sunday or Monday):**
+```
+Weekly review. Check my backlog for stale items, look at what I've
+been skipping repeatedly, and help me clean up.
+```
+
+---
+
+# Path B: Claude Code (Power Users)
+
+## B1: Install Prerequisites
+
 ```bash
+# Node.js (if not installed)
+brew install node  # Mac
+# or download from nodejs.org
+
+# Claude Code
 npm install -g @anthropic-ai/claude-code
+
+# Authenticate
 claude login
 ```
 
-## A4: Create Folder Structure
+## B2: Create Notes Folder
 
-Open your vault and create:
+Same as A2 above, or use existing Obsidian vault.
 
+## B3: Create CLAUDE.md
+
+Add `CLAUDE.md` to your notes folder root:
+
+```markdown
+# Today Process
+
+## Folder Structure
+- `daily/today.md` - Current day
+- `daily/archive/YYYY/MM-month/` - Previous days
+- `_backlog.md` - Someday/maybe items
+- `templates/` - Note templates
+
+## Commands
+- `/start-my-day` - Morning routine with staleness check
+- `/weekly-review` - Backlog cleanup and planning
+- `/end-of-day` - Reflection and carry forward
 ```
-your-vault/
-├── daily/
-│   ├── today.md
-│   ├── templates/
-│   │   └── daily-template.md
-│   └── archive/
-│       └── 2026/
-│           └── 01-january/
-├── projects/           # Optional: for commitment tracking
-└── CLAUDE.md           # AI configuration
-```
 
-## A5: Add Template Files
-
-Copy from this repo:
-- [templates/daily-template.md](../templates/daily-template.md) → `daily/templates/`
-- [templates/CLAUDE.md.example](../templates/CLAUDE.md.example) → vault root (rename to `CLAUDE.md`)
-
-Edit `CLAUDE.md` to match your vault path.
-
-## A6: Create the Skill
+## B4: Install Skills
 
 ```bash
 mkdir -p ~/.claude/skills/start-my-day
+mkdir -p ~/.claude/skills/weekly-review
 ```
 
-Copy [templates/start-my-day.skill.md](../templates/start-my-day.skill.md) to `~/.claude/skills/start-my-day/SKILL.md`
+Copy skill files:
+- [templates/start-my-day.skill.md](../templates/start-my-day.skill.md) → `~/.claude/skills/start-my-day/SKILL.md`
+- [templates/weekly-review.skill.md](../templates/weekly-review.skill.md) → `~/.claude/skills/weekly-review/SKILL.md`
 
-**Edit the Paths section** to match your vault location.
+**Edit the paths in each skill** to match your notes folder.
 
-## A7: Set Up Voice Capture
+## B5: Copy Templates
 
-Pick one:
+Same as A6 above.
 
-| Method | How |
-|--------|-----|
-| iPhone Voice Memos | Record → transcribe → paste |
-| macOS Dictation | Cmd+Cmd → speak → it types |
-| Google Docs Voice | Tools → Voice Typing |
-| Otter.ai | Records and transcribes |
-| Just type | Skip voice, type thoughts |
+## B6: Test It
 
-## A8: Optional - Granola for Meetings
+```bash
+cd ~/Documents/today-process  # or your folder
+claude
 
-[Granola](https://granola.so) transcribes your meetings automatically.
+# In Claude Code:
+/start-my-day
+```
 
-1. Download from [granola.so](https://granola.so)
-2. In Obsidian: Settings → Community Plugins → Browse → "Granola Sync"
-3. Configure to save to `Granola/` folder
+## B7: Your Daily Workflow
 
-## A9: Test It
+**Morning:**
+```
+/start-my-day
 
-1. Open VS Code in your vault
-2. Start Claude Code
-3. Type: `/start-my-day`
-4. Paste a test brain dump when prompted
-5. Review the structured output
+# Then paste your brain dump when prompted
+```
+
+**End of day:**
+```
+/end-of-day
+```
+
+**Weekly:**
+```
+/weekly-review
+```
 
 ---
 
-# Path B: Obsidian Only
+# Path C: Obsidian Integration
 
-No Claude Code - you'll copy/paste to claude.ai instead.
+Works with either Claude Desktop or Claude Code.
 
-## B1: Install Obsidian
+## C1: Point to Your Vault
 
-Same as A1 above.
+In your MCP config or CLAUDE.md, use your Obsidian vault path:
 
-## B2: Create Folder Structure
+```
+/Users/YOUR_USERNAME/Documents/Obsidian Vault
+```
+
+## C2: Folder Structure
+
+Add to your existing vault:
 
 ```
 your-vault/
-├── daily/
+├── daily/           # Or 01-daily, or whatever you use
 │   ├── today.md
-│   ├── templates/
-│   │   └── daily-template.md
-│   └── archive/
+│   ├── archive/
+│   └── templates/
+│       └── daily-template.md
+└── _backlog.md      # Top-level backlog
 ```
 
-## B3: Add Template
+## C3: Optional Plugins
 
-Copy [templates/daily-template.md](../templates/daily-template.md) to `daily/templates/`
+- **Templater** - For date variables in templates
+- **Calendar** - Visual navigation of daily notes
+- **Dataview** - Query your backlog and tasks
+- **Granola Sync** - Auto-import meeting transcripts
 
-## B4: Daily Workflow
+## C4: Optional Granola
 
-Each morning:
+[Granola](https://granola.so) transcribes meetings automatically:
 
-1. Create `today.md` from template (or duplicate yesterday's)
-2. Do your brain dump (voice or typing) into the Brain Dump section
-3. Open [claude.ai](https://claude.ai)
-4. Paste this prompt:
-
-```
-Here's my morning brain dump. Please:
-1. Extract all action items
-2. Categorize as: Must Do Today / Should Do Today / Could Do If Time / Waiting On Others
-3. Suggest my Top 3 priorities for today
-4. Format as markdown I can paste into my daily note
-
-Brain dump:
-[paste your brain dump]
-```
-
-5. Copy Claude's response into your daily note
+1. Install Granola
+2. Install Obsidian Granola Sync plugin
+3. Configure to save transcripts to `Granola/` folder
+4. Add to your morning routine: "Process any new Granola transcripts"
 
 ---
 
-# Path C: Minimal
+# Voice Capture Setup
 
-No Obsidian, no special tools. Just a folder.
+Get your thoughts into text:
 
-## C1: Create a Folder
-
-Anywhere on your computer:
-
-```
-daily-notes/
-├── today.md
-└── archive/
-```
-
-## C2: Create today.md
-
-Use any text editor. Copy the structure from [templates/daily-template.md](../templates/daily-template.md).
-
-## C3: Daily Workflow
-
-Same as Path B step 4 - paste brain dump to claude.ai, get structured output, paste back.
-
-## C4: Archive Yesterday
-
-Each morning, rename `today.md` to `YYYY-MM-DD.md` and move to `archive/`. Create fresh `today.md`.
+| Method | Setup |
+|--------|-------|
+| **iPhone Voice Memos** | Record → transcribe (iOS 18+) → paste |
+| **Mac Dictation** | System Settings → Keyboard → Dictation ON. Press Cmd+Cmd to activate |
+| **Whisper** | `brew install whisper` then `whisper audio.m4a --output_format txt` |
+| **Google Docs** | Open doc → Tools → Voice Typing |
+| **Otter.ai** | Download app, record, copy transcript |
 
 ---
 
-# Voice Capture Deep Dive
+# Staleness Tracking
 
-## iPhone
+Claude tracks how long items sit. This requires file access (MCP or Claude Code).
 
-1. Open Voice Memos
-2. Record your brain dump (2-3 min)
-3. Tap the recording → three dots → "Copy Transcript" (iOS 18+)
-4. Paste into today.md
+## How It Works
 
-**Pre-iOS 18:** Use Whisper or a transcription app.
+When Claude reads your notes, it checks:
 
-## Mac
+1. **Archive dates** - When was the last daily note archived?
+2. **Task history** - Has this exact task text appeared before?
+3. **Backlog timestamps** - When was each item pushed to backlog?
 
-1. Position cursor in Brain Dump section
-2. Press Cmd+Cmd (or fn fn on newer Macs)
-3. Speak - it types as you talk
-4. Click Done when finished
+## What Gets Flagged
 
-## Web-Based
+| Condition | Alert |
+|-----------|-------|
+| Must Do item for 2+ days | "⚠️ This has been urgent for 3 days" |
+| Should Do item for 3+ days | "Consider demoting or addressing" |
+| Backlog item for 7+ days | "Stale - review in weekly" |
+| Same item skipped 4+ times | "You keep skipping this - archive?" |
 
-1. Open [Google Docs](https://docs.google.com)
-2. Tools → Voice Typing
-3. Click microphone, speak
-4. Copy text to today.md
+## Enabling Timestamps
+
+For best tracking, include dates when pushing to backlog:
+
+```markdown
+- [ ] Research CRM options (pushed 2026-01-08)
+```
+
+The skills do this automatically.
 
 ---
 
-# Customization
+# Weekly Review Setup
 
-Once you're using it daily, customize:
+## Trigger
 
-| Aspect | Options |
-|--------|---------|
-| Task categories | MoSCoW (default), Eisenhower, Energy-based, Context (@calls, @computer) |
-| Folder structure | Match your existing organization |
-| Commitment sources | Add project MOCs, CRM links, people notes |
-| Meeting integration | Granola, Otter, Fireflies, manual |
+Choose your day:
+- **Sunday evening** - Plan the week ahead
+- **Monday morning** - Start fresh
+- **Friday afternoon** - Close out the week
 
-See [examples/implementation-example.md](../examples/implementation-example.md) for a real-world setup.
+## What Gets Reviewed
+
+1. **Stale backlog items** (7+ days)
+2. **Recurring incomplete tasks** (appeared 3+ times, never done)
+3. **Overdue items** (had a deadline that passed)
+4. **Waiting On items** (anything sitting too long)
+
+## Actions
+
+For each item, decide:
+- **Pull forward** - Move to this week's priorities
+- **Keep in backlog** - Still relevant, not urgent
+- **Archive** - No longer relevant
+- **Delete** - Was never going to happen
 
 ---
 
 # Troubleshooting
 
-**Claude can't find my vault**
-- Check the path in SKILL.md (use absolute path like `/Users/you/Documents/Vault`)
+**Claude Desktop can't access files**
+- Check MCP config path is correct
+- Restart Claude Desktop after config changes
+- Look for hammer icon (indicates MCP tools loaded)
 
-**Tasks aren't extracting well**
-- Use more action verbs: "need to send", "should call", "have to finish"
-- Be explicit about deadlines: "by Friday", "before the meeting"
+**Claude Code skills not working**
+- Verify skill path: `~/.claude/skills/skill-name/SKILL.md`
+- Check skill has correct frontmatter (name, description)
+- Ensure paths in skill match your folder structure
 
-**I forget to do this**
-- Set a morning alarm: "Brain dump time"
-- Stack with existing habit: after coffee, before email
+**Staleness not tracking**
+- Make sure Claude can read archive folder
+- Include dates when pushing items to backlog
+- Use consistent task text (don't rephrase every day)
 
-**Too overwhelming**
-- Start with just Top 3 priorities
-- Add task categories after a week
-- Add end-of-day reflection after two weeks
+**Weekly review not prompting**
+- It doesn't auto-trigger - you run it manually
+- Try: "It's weekly review time" or `/weekly-review`
 
 ---
 
-*Next: [Daily usage cheat sheet](cheat-sheet.md)*
+# Next Steps
+
+1. **Start simple** - Just brain dump + task extraction for week 1
+2. **Add backlog** - Week 2, start pushing deferred items
+3. **Add weekly review** - Week 3, make it a habit
+4. **Customize** - Adjust categories, add sections, make it yours
+
+---
+
+*Cheat sheet: [docs/cheat-sheet.md](cheat-sheet.md)*

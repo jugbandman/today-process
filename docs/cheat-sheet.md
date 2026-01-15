@@ -11,29 +11,50 @@ Print this. Keep it visible.
    └── Voice or type everything on your mind
    └── Don't organize, just dump
 
-2. AI PROCESS (1 min)
-   └── /start-my-day  OR  paste to claude.ai
+2. START MY DAY
+   └── Claude Desktop: "Start my day. Here's my brain dump: [paste]"
+   └── Claude Code: /start-my-day
 
 3. REVIEW (2-3 min)
+   └── Check Stale Items flagged by Claude
    └── Confirm Top 3 priorities
    └── Adjust task categories if needed
 ```
 
 ---
 
-## Brain Dump Tips
+## Daily Commands
 
-**Say things like:**
-- "Need to send that email to..."
-- "Should follow up with..."
-- "Meeting at 2pm about..."
-- "Waiting to hear back from..."
-- "Worried about the Friday deadline..."
+**Claude Desktop:**
+```
+Start my day. Read yesterday's note, check backlog, process this brain dump: [paste]
+```
 
-**Don't worry about:**
-- Organization
-- Complete sentences
-- Logical order
+```
+End my day. What didn't get done? Help me carry forward or push to backlog.
+```
+
+**Claude Code:**
+```
+/start-my-day
+/end-of-day
+/weekly-review
+```
+
+---
+
+## Staleness Alerts
+
+Claude flags items sitting too long:
+
+| Alert | Meaning |
+|-------|---------|
+| ⚠️ Must Do 2+ days | This urgent thing keeps not happening |
+| Should Do 3+ days | Consider demoting or just doing it |
+| Waiting 7+ days | Time to follow up |
+| Skipped 4+ times | Maybe archive this? |
+
+**Don't ignore stale items.** Either do them, demote them, or push to backlog.
 
 ---
 
@@ -44,49 +65,69 @@ Print this. Keep it visible.
 | **Must Do Today** | Hard deadlines, will break something if not done |
 | **Should Do Today** | Important, but could slide to tomorrow |
 | **Could Do If Time** | Nice to have, no pressure |
-| **Waiting On Others** | Blocked - note who and what |
+| **Waiting On Others** | Blocked - note who and since when |
 
 ---
 
-## During the Day
+## Backlog Flow
 
-- [ ] Check off tasks when done
-- [ ] Add thoughts to Quick Notes
-- [ ] Move tasks between categories as things change
+**Daily → Backlog:**
+```
+Push "Research CRM" to backlog
+```
+Claude adds with date: `- [ ] Research CRM (pushed 2026-01-14)`
 
-**Need help?** Ask Claude:
-- "Help me draft the email to [person]"
-- "What's my most urgent task?"
-- "Summarize what I still need to do"
+**Backlog → Daily:**
+```
+Pull "Research CRM" forward to today
+```
+
+**Weekly Review:**
+```
+Weekly review - check stale backlog items
+```
 
 ---
 
 ## End of Day (2 min)
 
-Fill in:
+Tell Claude:
 ```
-**What got done:**
-- [List completed items]
-
-**What blocked progress:**
-- [What got in the way]
-
-**Tomorrow's focus:**
-- [Top 1-2 things]
+End my day. Review what got done.
 ```
 
-Tomorrow's AI reads this.
+Claude will ask about incomplete items:
+- **Carry forward** → moves to tomorrow's Must/Should
+- **Push to backlog** → adds to _backlog.md with date
+- **Archive** → removes (you decided not to do it)
 
 ---
 
-## Quick Commands
+## Weekly Review (10-15 min)
 
-| Command | What It Does |
-|---------|--------------|
-| `/start-my-day` | Full morning routine |
-| "process my brain dump" | Just extract tasks |
-| "what do I owe [person]?" | Find commitments |
-| "carry forward" | Move yesterday's incomplete tasks |
+Run once per week (Sunday or Monday):
+
+```
+Weekly review
+```
+
+Claude checks:
+- Backlog items sitting 7+ days
+- Tasks you've skipped repeatedly
+- Long-term Waiting On items
+
+For each: Pull forward, keep, or archive.
+
+---
+
+## Quick Reference
+
+| When | Do This |
+|------|---------|
+| Morning | Brain dump → Start my day → Confirm priorities |
+| During day | Check off tasks, add notes |
+| End of day | Review → Carry forward or push to backlog |
+| Weekly | Review stale items, clean up backlog |
 
 ---
 
@@ -94,36 +135,20 @@ Tomorrow's AI reads this.
 
 | Problem | Fix |
 |---------|-----|
-| Tasks not extracting | Use action verbs: "need to", "should", "have to" |
-| Wrong categories | Adjust after AI suggests - it learns your patterns |
-| Forgot yesterday | Check archive, carry forward what matters |
-| Overwhelmed | Focus only on Must Do, ignore the rest |
+| Stale items piling up | Do weekly review, be honest about archiving |
+| Backlog growing forever | Weekly review, archive ruthlessly |
+| Same task every day | Either schedule it as Must Do or admit you won't do it |
+| Overwhelmed | Focus only on Must Do, ignore rest |
 
 ---
 
-## Weekly Maintenance
+## Files
 
-- [ ] Review archived days for dropped items
-- [ ] Clean up completed Waiting On items
-- [ ] Adjust template if sections aren't working
-
----
-
-## The Core Loop
-
-```
-Morning Brain Dump
-       ↓
-   AI Extracts
-       ↓
-  Structured Day
-       ↓
-    Do Work
-       ↓
- End of Day Reflection
-       ↓
-   (Next Morning)
-```
+| File | Purpose |
+|------|---------|
+| `daily/today.md` | Today's command center |
+| `daily/archive/` | Previous days |
+| `_backlog.md` | Someday/maybe items |
 
 ---
 

@@ -10,6 +10,10 @@ date: YYYY-MM-DD
 2.
 3.
 
+## Stale Items ⚠️
+<!-- AI populates this - items sitting too long in Must/Should Do -->
+
+
 ## Brain Dump
 <!-- Paste your morning voice transcript or type your thoughts here -->
 <!-- Don't organize - just dump everything on your mind -->
@@ -19,10 +23,12 @@ date: YYYY-MM-DD
 
 ### Must Do Today
 <!-- Hard deadlines, critical items, things that MUST happen today -->
+<!-- Items here 2+ days get flagged as stale -->
 - [ ]
 
 ### Should Do Today
 <!-- Important but timing is flexible -->
+<!-- Items here 3+ days get flagged -->
 - [ ]
 
 ### Could Do If Time
@@ -30,7 +36,8 @@ date: YYYY-MM-DD
 - [ ]
 
 ### Waiting On Others
-<!-- Blocked items - note who you're waiting on -->
+<!-- Blocked items - note who you're waiting on and since when -->
+<!-- Format: - [ ] Task - waiting on [person] since [date] -->
 - [ ]
 
 ## Meetings & Calls
@@ -51,26 +58,28 @@ date: YYYY-MM-DD
 
 **What blocked progress:**
 
+**Carry forward / Push to backlog:**
+<!-- List items to move. Claude will ask: carry to tomorrow or push to backlog? -->
+
 **Tomorrow's focus:**
 
 ---
 
-## How to Use This Template
+## End of Day Actions
 
-**Morning (5-10 min):**
-1. Brain dump - voice record or type everything on your mind
-2. Run `/start-my-day` (or paste to claude.ai)
-3. Review AI-extracted tasks, confirm Top 3
+When you finish for the day, tell Claude:
 
-**During the day:**
-- Check off tasks as done
-- Add notes to Quick Notes section
-- Move items between categories as priorities shift
+```
+End my day. Review what got done, help me decide what to
+carry forward vs push to backlog, and note tomorrow's focus.
+```
 
-**End of day (2 min):**
-- Fill in reflection
-- Tomorrow's AI uses this as input
+Claude will:
+1. Check off completed items
+2. Ask about incomplete items: "Carry to tomorrow or push to backlog?"
+3. Add pushed items to `_backlog.md` with today's date
+4. Update "Tomorrow's focus"
 
 ---
 
-*Delete this "How to Use" section once you're comfortable with the workflow.*
+*Delete this instructions section once you're comfortable with the workflow.*

@@ -2,6 +2,8 @@
 
 An AI-powered daily workflow that turns your morning brain dump into a structured action plan.
 
+**The unlock:** Claude (Desktop or Code) connected to your local files. AI that can read your notes, see what's been sitting, and write your daily plan.
+
 ---
 
 ## The Problem
@@ -12,65 +14,99 @@ Traditional approaches fail:
 - **Todo apps** require manual entry (friction)
 - **Calendar apps** show meetings, not context
 - **Your brain** drops things between days
+- **ChatGPT/Claude web** can't see your files (no memory)
 
 The cognitive load of "figuring out what to do" consumes energy that should go toward *doing*.
 
 ## The Solution
 
-**Talk, don't type.** Do a 2-3 minute voice brain dump each morning. Say everything on your mind - don't organize, just dump.
+**Connect Claude to your files.** Using Claude Desktop (MCP) or Claude Code, AI gets direct access to your notes folder. It can:
+
+- Read yesterday's note and carry forward incomplete tasks
+- See what's been sitting for 3 days and flag it
+- Write directly to today.md
+- Track your backlog and prompt weekly reviews
+
+**Talk, don't type.** Do a 2-3 minute voice brain dump each morning. Say everything on your mind.
 
 **AI extracts and structures.** Claude reads your transcript and:
 - Extracts action items
 - Categorizes by priority (Must/Should/Could/Waiting)
-- Surfaces commitments you owe people
+- Flags stale items ("This has been in Must Do for 3 days")
 - Suggests your Top 3 focus areas
 
-**Work from clarity.** Your `today.md` becomes command central - one file with everything you need.
+**Work from clarity.** Your `today.md` becomes command central.
 
 ---
 
-## Quick Start (5 minutes)
+## The Unlock: Claude + Your Files
 
-### Option 1: Just Try It (No Setup)
+This isn't copy/paste to a chatbot. Claude has **direct file access**:
+
+| Capability | What It Means |
+|------------|---------------|
+| **Read** | Sees yesterday's note, your backlog, project files |
+| **Write** | Creates today.md, updates backlog, archives old notes |
+| **Track** | Knows what's been sitting, what moved, what's stale |
+| **Remind** | "This urgent task has been here 3 days" |
+
+Two ways to connect:
+
+| Tool | Best For | Setup Time |
+|------|----------|------------|
+| **Claude Desktop + MCP** | Non-coders, simple setup | 30 min |
+| **Claude Code** | Power users, full automation | 1-2 hours |
+
+See [Setup Guide](docs/setup-guide.md) for both paths.
+
+---
+
+## Quick Start
+
+### Option 1: Just Try the Methodology (No Setup)
 
 1. Open [claude.ai](https://claude.ai)
-2. Paste this prompt with your own brain dump:
+2. Paste this prompt:
 
 ```
 Here's my morning brain dump. Please:
 1. Extract all action items
 2. Categorize as: Must Do Today / Should Do Today / Could Do If Time / Waiting On Others
-3. Suggest my Top 3 priorities for today
+3. Flag anything that sounds urgent
+4. Suggest my Top 3 priorities
 
 Brain dump:
-[Paste your stream-of-consciousness thoughts here - what you need to do,
-what's worrying you, meetings, deadlines, random stuff - don't organize, just dump]
+[Paste your stream-of-consciousness here]
 ```
 
-3. Review Claude's structured output
-4. That's the Today Process. Everything else is automation.
+3. See the value. Then set up file access for the full experience.
 
-### Option 2: Full Setup
+### Option 2: Full Setup (Recommended)
 
-See the [Setup Guide](docs/setup-guide.md) for:
-- Obsidian + Claude Code integration
-- Automated `/start-my-day` skill
-- Meeting transcript processing
-- Commitment tracking across projects
+See [Setup Guide](docs/setup-guide.md) for:
+- Claude Desktop with MCP filesystem access
+- Claude Code with skills
+- Backlog tracking and weekly reviews
+- Staleness alerts
 
 ---
 
 ## What You Get
 
-### Daily Note Structure
+### Daily Note (`today.md`)
 
 ```markdown
 # Today: Monday, January 14, 2026
 
 ## Top 3 Priorities
-1. [AI-suggested based on deadlines and context]
+1. [AI-suggested based on deadlines and staleness]
 2. [Your most important work]
 3. [Key commitment]
+
+## Stale Items ⚠️
+<!-- AI surfaces these automatically -->
+- "Send proposal to Client A" - in Must Do for 3 days
+- "Follow up with Bob" - marked urgent on Friday
 
 ## Brain Dump
 [Your raw morning thoughts - AI processes this]
@@ -95,23 +131,71 @@ See the [Setup Guide](docs/setup-guide.md) for:
 **Tomorrow's focus:**
 ```
 
-### Morning Routine (5-10 min)
+### Backlog (`_backlog.md`)
 
-| Step | Time | What Happens |
-|------|------|--------------|
-| Brain dump | 2-3 min | Talk through everything on your mind |
-| AI processing | 1 min | Run `/start-my-day` or paste to Claude |
-| Review | 2-3 min | Confirm priorities, adjust categories |
+A separate file for someday/maybe items:
+
+```markdown
+# Backlog
+
+## To Review
+<!-- Items pushed here get reviewed weekly -->
+- [ ] Redesign the onboarding flow (pushed 2026-01-10)
+- [ ] Research new CRM options (pushed 2026-01-08)
+
+## Someday/Maybe
+- [ ] Learn Spanish
+- [ ] Build personal website
+
+## Archived
+<!-- Decided not to do -->
+- [x] Old project idea (archived 2026-01-05: no longer relevant)
+```
+
+### Weekly Review
+
+Every Sunday (or your chosen day), Claude prompts:
+
+```
+It's weekly review time. Let me check your backlog...
+
+## Stale in Backlog (sitting 7+ days)
+- "Research CRM options" - pushed here Jan 8 (6 days ago)
+- "Redesign onboarding" - pushed here Jan 10 (4 days ago)
+
+## Recurring Incomplete
+- "Exercise" appeared in Could Do 4 of 5 days, never completed
+
+## Questions
+1. "Research CRM options" - pull forward to this week, or archive?
+2. "Redesign onboarding" - still relevant?
+3. Want to schedule "Exercise" as a Must Do?
+```
+
+---
+
+## Staleness Tracking
+
+Claude tracks how long items sit:
+
+| Duration | What Happens |
+|----------|--------------|
+| **2 days in Must Do** | Flagged in Stale Items section |
+| **3 days in Should Do** | Suggested to demote or address |
+| **7 days in backlog** | Prompted in weekly review |
+| **Recurring skip** | "You've skipped this 4 times - archive it?" |
+
+This prevents the "infinite todo list" problem.
 
 ---
 
 ## Setup Paths
 
-| Path | Who It's For | Time | Guide |
-|------|--------------|------|-------|
-| **Minimal** | Try it first | 5 min | Copy/paste to claude.ai |
-| **Obsidian** | Note-takers | 1 hour | [Setup Guide](docs/setup-guide.md) |
-| **Full Automation** | Power users | 2-3 hours | [Setup Guide](docs/setup-guide.md) + Claude Code |
+| Path | Who It's For | Guide |
+|------|--------------|-------|
+| **Claude Desktop + MCP** | Want it simple, comfortable with apps | [Setup Guide](docs/setup-guide.md#claude-desktop) |
+| **Claude Code** | Want full automation, comfortable with terminal | [Setup Guide](docs/setup-guide.md#claude-code) |
+| **Obsidian + Either** | Already use Obsidian | [Setup Guide](docs/setup-guide.md#obsidian-integration) |
 
 ---
 
@@ -122,76 +206,70 @@ Ready to copy:
 | Template | Purpose |
 |----------|---------|
 | [daily-template.md](templates/daily-template.md) | Daily note structure |
-| [start-my-day.skill.md](templates/start-my-day.skill.md) | Claude Code skill |
-| [CLAUDE.md.example](templates/CLAUDE.md.example) | Vault configuration |
+| [backlog-template.md](templates/backlog-template.md) | Backlog tracking |
+| [start-my-day.skill.md](templates/start-my-day.skill.md) | Morning routine (Claude Code) |
+| [weekly-review.skill.md](templates/weekly-review.skill.md) | Weekly backlog review |
+| [claude-desktop-config.json](templates/claude-desktop-config.json) | MCP filesystem setup |
 
 ---
 
 ## How It Works
 
 ```
-Voice Brain Dump          AI Processing              Structured Day
-     │                         │                          │
-     ▼                         ▼                          ▼
-"Need to call John,    →   Extracts tasks,      →    today.md with
- meeting at 2pm,           categorizes,              clear priorities
- worried about             suggests Top 3            and next actions
- Friday deadline..."
+Morning Brain Dump
+       ↓
+Claude reads brain dump + yesterday's note + backlog
+       ↓
+Extracts tasks, flags stale items, suggests priorities
+       ↓
+Writes to today.md (you confirm/adjust)
+       ↓
+Work your day
+       ↓
+End of day: reflection + push incomplete to tomorrow/backlog
+       ↓
+Weekly: backlog review, clean up stale items
 ```
-
-The key insight: **The methodology is universal. The implementation is personal.**
-
-- Core loop works with any folder + any AI
-- Obsidian adds linking and plugins
-- Claude Code adds automation
-- Pick your level of tooling
-
----
-
-## Examples
-
-See how one person implemented it: [examples/implementation-example.md](examples/implementation-example.md)
-
-Includes:
-- Folder structure decisions
-- Meeting transcript integration
-- Client/project commitment tracking
-- What to customize for your context
 
 ---
 
 ## FAQ
 
+**Why Claude Desktop/Code instead of ChatGPT?**
+MCP filesystem access. Claude can read/write your actual files. ChatGPT can't (yet).
+
 **Do I need Obsidian?**
-No. Any folder with markdown files works. Obsidian just adds nice features.
+No. Any folder with markdown files works. Obsidian adds nice features (linking, plugins) but isn't required.
 
-**Do I need Claude Code?**
-No. Copy/paste to claude.ai works fine. Claude Code automates it.
+**What if I skip a day?**
+Claude sees the gap. It'll carry forward incomplete items and note what was missed.
 
-**What about existing todo systems?**
-This doesn't replace your task manager. It's a *daily planning layer* that feeds into whatever system you use.
+**Can I use this with my existing task manager?**
+Yes. This is a *daily planning layer*, not a replacement for Todoist/Things/etc. Use it to decide what matters today.
 
-**How is this different from Bullet Journal / GTD / etc?**
-Those require you to do the categorization. This uses AI to do the cognitive work of extracting and prioritizing.
+**What about mobile?**
+Brain dump capture works on mobile (voice memos). Full Claude integration is desktop for now.
 
-**What if I miss a day?**
-Just start fresh. Check yesterday's archive for carried items.
+---
+
+## Examples
+
+See a real implementation: [examples/implementation-example.md](examples/implementation-example.md)
 
 ---
 
 ## Contributing
 
-Found a better way to do something? PRs welcome.
-
-- Improve the templates
-- Add integration guides (Notion, Logseq, etc.)
-- Share your implementation as an example
+PRs welcome:
+- Integration guides for other tools
+- Improvements to templates
+- Your implementation as an example
 
 ---
 
 ## License
 
-MIT - Use it however you want.
+MIT - Use however you want.
 
 ---
 
