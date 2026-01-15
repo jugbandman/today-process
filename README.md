@@ -201,15 +201,29 @@ This prevents the "infinite todo list" problem.
 
 ## Templates
 
-Ready to copy:
+Ready to copy to your setup:
 
 | Template | Purpose |
 |----------|---------|
 | [daily-template.md](templates/daily-template.md) | Daily note structure |
-| [backlog-template.md](templates/backlog-template.md) | Backlog tracking |
-| [start-my-day.skill.md](templates/start-my-day.skill.md) | Morning routine (Claude Code) |
-| [weekly-review.skill.md](templates/weekly-review.skill.md) | Weekly backlog review |
+| [backlog-template.md](templates/backlog-template.md) | Backlog with Done section |
+| [start-my-day.skill.md](templates/start-my-day.skill.md) | Morning routine + Monday planning |
+| [end-of-day.skill.md](templates/end-of-day.skill.md) | Daily wrap up + reflections |
+| [weekly-review.skill.md](templates/weekly-review.skill.md) | Weekly backlog cleanup |
 | [claude-desktop-config.json](templates/claude-desktop-config.json) | MCP filesystem setup |
+
+### Skills Quick Install (Claude Code)
+
+```bash
+# Create skill folders
+mkdir -p ~/.claude/skills/start-my-day
+mkdir -p ~/.claude/skills/end-of-day
+mkdir -p ~/.claude/skills/weekly-review
+
+# Download skills (replace with actual paths after cloning)
+# Copy templates/*.skill.md to ~/.claude/skills/[name]/SKILL.md
+# Edit paths in each skill to match your setup
+```
 
 ---
 

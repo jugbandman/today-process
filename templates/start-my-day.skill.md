@@ -1,11 +1,11 @@
 ---
 name: start-my-day
-description: Morning routine - archives yesterday, creates today.md, processes brain dump, flags stale items, suggests priorities. Invoke with /start-my-day.
+description: Morning routine - archives yesterday, creates today.md, processes brain dump, flags stale items, suggests priorities. Handles in-progress files and Monday weekly planning. Invoke with /start-my-day.
 ---
 
 # Start My Day
 
-Morning workflow: archive yesterday, check staleness, create today.md, process brain dump, suggest priorities.
+Morning workflow with in-progress detection, staleness tracking, and Monday planning.
 
 ## Paths (CUSTOMIZE THESE)
 
@@ -21,39 +21,133 @@ Backlog:    _backlog.md
 
 ## Workflow
 
+### Phase 0: Mode Detection
+
+Check conditions:
+
+1. **Is it Monday?** → Weekly Planning Mode first
+2. **Does today.md exist for today?** → In-Progress Mode
+3. **Otherwise** → Standard Mode
+
+---
+
+## Monday: Weekly Planning Mode
+
+If Monday, run before standard routine:
+
+```markdown
+# Weekly Planning
+
+It's Monday. Let's plan the week before diving into today.
+
+## Last Week Review
+[Scan last 5-7 daily notes from archive]
+
+- Completed: [X] tasks
+- Carried forward: [X] items
+- Pushed to backlog: [X] items
+- Recurring skips: [List items appearing 3+ times uncompleted]
+
+## This Week's Calendar
+[If calendar connected, list key events]
+[Otherwise: "Check your calendar for key events this week"]
+
+## Backlog Check
+[Scan _backlog.md]
+
+- Items in "This Week": [List]
+- Stale in "To Review" (7+ days): [List]
+
+## Weekly Top 3
+Based on calendar and backlog, suggested weekly priorities:
+
+1. [Suggested priority]
+2. [Suggested priority]
+3. [Suggested priority]
+
+Confirm or adjust these weekly priorities?
+```
+
+After confirmation, proceed to standard routine.
+
+---
+
+## In-Progress Mode
+
+If today.md exists with today's date, don't recreate - update instead.
+
+### Detection
+
+```
+today.md found for [today's date].
+Running update scan instead of full creation...
+```
+
+### Scan For
+
+1. **New Brain Dump content**
+   - Compare to previous read (if tracked)
+   - Or check if Brain Dump section has content not yet processed
+   - Extract new tasks
+
+2. **Completed tasks**
+   - Find `- [x]` items
+   - Move to Done section or note for backlog
+
+3. **New Quick Notes**
+   - Scan for actionable items in notes
+   - "Mentioned 'need to call Bob'" → suggest as task
+
+4. **Time-based checks**
+   - Any meetings in next 2 hours? → Meeting prep prompt
+   - Is it afternoon? → Check progress on Top 3
+
+### Output (In-Progress)
+
+```markdown
+## Update Scan Complete
+
+**Since last check:**
+- Brain dump: [New content found / No new content]
+- Completed: 3 tasks since morning
+- Quick notes: 2 new notes (1 actionable: "call Bob")
+
+**Suggestions:**
+- Add "Call Bob" to Should Do? (y/n)
+- Move completed tasks to Done section? (y/n)
+
+**Upcoming:**
+- Meeting "Client Review" in 90 minutes
+  → Generate prep notes? (y/n)
+```
+
+---
+
+## Standard Mode
+
+Full morning routine when starting fresh.
+
 ### Phase 1: Health Check
 
 ```bash
-# Verify access
 ls "$VAULT_PATH" > /dev/null && echo "Vault: OK"
 ```
 
-Check what exists:
-- Does today.md exist? What date?
-- How many days since last archive?
-- Any items in backlog?
+Check:
+- Vault accessible
+- Today.md status (exists? what date?)
+- Days since last archive
 
 ### Phase 2: Staleness Check
 
-**Read yesterday's note** (or last archived note). Look for:
+Read recent archived notes. Flag:
 
-1. **Stale Must Do items**
-   - Any `- [ ]` in Must Do section that was also there 2+ days ago
-   - Flag with days: "Send proposal (3 days in Must Do)"
-
-2. **Stale Should Do items**
-   - Any `- [ ]` in Should Do for 3+ days
-   - Flag: "Review budget (4 days in Should Do)"
-
-3. **Recurring patterns**
-   - Same task text appearing multiple days unchecked
-   - "Exercise has appeared 5 times, never completed"
-
-4. **Stale Waiting On**
-   - Items waiting 7+ days
-   - "Waiting on Bob since Jan 5 (10 days)"
-
-**Output stale items to include in today.md Stale Items section.**
+| Location | Age | Alert |
+|----------|-----|-------|
+| Must Do | 2+ days | "⚠️ [task] - Must Do for [N] days" |
+| Should Do | 3+ days | "[task] - Should Do for [N] days" |
+| Waiting On | 7+ days | "[task] - waiting [N] days" |
+| Recurring | 4+ times | "[task] - skipped [N] times" |
 
 ### Phase 3: Archive Yesterday
 
@@ -61,147 +155,125 @@ If today.md exists with old date:
 
 1. Rename to `YYYY-MM-DD.md`
 2. Move to `archive/YYYY/MM-month/`
-3. Note what was incomplete (for carry forward)
+3. Record incomplete items for carry forward
 
 ### Phase 4: Create Today.md
 
 1. Copy from template
-2. Fill in date
-3. Add previous note link
-4. **Add Stale Items section** with flagged items
-5. Carry forward incomplete `- [ ]` tasks from yesterday
-   - Add note: `(carried from [date])`
+2. Set date, previous note link
+3. Add Stale Items section (from Phase 2)
+4. Carry forward incomplete tasks
+   - Add: `(carried from [date])`
+5. Check backlog "This Week" for suggestions
 
-### Phase 5: Check Backlog
+### Phase 5: Process Brain Dump
 
-Read `_backlog.md`. Look for:
+If brain dump provided:
 
-1. Items in "This Week" section → suggest for today
-2. Items marked urgent or with approaching deadlines
-3. Anything pushed 7+ days ago (flag for weekly review)
+1. **Extract actions** - Verbs: need, should, must, send, call, finish, etc.
+2. **Identify context** - People, deadlines, urgency
+3. **Categorize** - Must/Should/Could/Waiting
+4. **Deduplicate** - Check against carried items and backlog
+5. **Update tasks section**
 
-### Phase 6: Process Brain Dump
-
-If user provides brain dump:
-
-1. **Extract action items** - Look for verbs:
-   - "need to", "should", "have to", "must"
-   - "send", "call", "email", "follow up"
-   - "finish", "complete", "submit", "review"
-
-2. **Identify context**
-   - People mentioned → link or note
-   - Deadlines mentioned → flag for Must Do
-   - Urgency language → categorize appropriately
-
-3. **Categorize tasks:**
-   - Explicit deadlines today → Must Do Today
-   - Urgent language + no deadline → Must Do Today
-   - Important, flexible timing → Should Do Today
-   - Nice to have → Could Do If Time
-   - Waiting on someone → Waiting On Others
-
-4. **Check for duplicates**
-   - Is this task already in today.md (carried forward)?
-   - Is it in backlog?
-   - Merge rather than duplicate
-
-5. **Update Tasks section** with extracted items
-
-### Phase 7: Suggest Priorities
+### Phase 6: Suggest Priorities
 
 Based on:
-- Stale items (highest priority - they've been waiting)
-- Deadline items
-- Carried forward items
-- New urgent items from brain dump
-
-Suggest Top 3, explain reasoning:
+1. Stale items (they've been waiting)
+2. Deadline items
+3. Carried forward items
+4. New urgent items from brain dump
 
 ```
 Suggested Top 3:
-1. "Send proposal to Client A" - been in Must Do 3 days, deadline today
-2. "Follow up with Bob" - marked urgent in brain dump
-3. "Prep for Thursday meeting" - carried forward from yesterday
+1. "Send proposal" - 3 days stale, make it happen
+2. "Client call prep" - meeting at 2pm
+3. "Review budget" - carried from yesterday
 
-These OK, or want to adjust?
+Confirm or adjust?
+```
+
+### Phase 7: Time Blocking (Optional)
+
+If calendar connected, offer:
+
+```
+Want to block time for your Top 3?
+
+1. "Send proposal" → 9-11am (2hr deep work)?
+2. "Client call prep" → 1:30pm (30min before meeting)?
+3. "Review budget" → 4-5pm (1hr)?
+
+Create these blocks? (yes/adjust/skip)
 ```
 
 ---
 
-## Staleness Tracking
+## Interactive Mode
 
-| Location | Age | Alert |
-|----------|-----|-------|
-| Must Do | 2+ days | "⚠️ [task] - Must Do for [N] days" |
-| Should Do | 3+ days | "[task] - Should Do for [N] days, demote?" |
-| Waiting On | 7+ days | "[task] - waiting [N] days, follow up?" |
-| Backlog To Review | 7+ days | Flag for weekly review |
-| Recurring skip | 4+ times | "[task] - skipped [N] times, archive?" |
+For prompted walkthrough:
 
-### How to Detect Staleness
+```
+/start-my-day interactive
+```
 
-**Option 1: Date parsing**
-If items include dates: `(carried from 2026-01-10)`, calculate from that.
+Asks questions one at a time:
+1. How are you feeling today?
+2. Any hard constraints (meetings, deadlines)?
+3. Brain dump?
+4. Disposition of each carried item
+5. Confirm priorities
 
-**Option 2: Archive comparison**
-Read last 3-5 archived daily notes. If same task text appears:
-- Unchecked in 2+ consecutive Must Do → stale
-- Unchecked in 3+ consecutive Should Do → stale
-- Appearing 4+ times total → recurring skip
+---
 
-**Option 3: Backlog timestamps**
-Items in backlog have `(pushed YYYY-MM-DD)` - calculate from that.
+## Output (Standard)
+
+```markdown
+# Good morning!
+
+## Status
+- [x] Yesterday archived
+- [x] Today.md created for [date]
+- [x] Carried forward: [N] items
+- [x] Brain dump processed: [N] tasks
+
+## ⚠️ Stale Items
+- "Send proposal" - Must Do for 3 days
+- "Follow up with Bob" - Should Do for 4 days
+
+## Suggested Top 3
+1. [Priority with reasoning]
+2. [Priority with reasoning]
+3. [Priority with reasoning]
+
+Confirm priorities? (yes/adjust)
+```
+
+---
+
+## Modes Summary
+
+| Mode | Trigger | What Happens |
+|------|---------|--------------|
+| **Standard** | No today.md for today | Full creation routine |
+| **In-Progress** | Today.md exists for today | Update scan only |
+| **Monday** | It's Monday | Weekly planning first, then standard |
+| **Interactive** | `/start-my-day interactive` | Prompted walkthrough |
+| **Quick** | `/start-my-day quick` | Minimal prompts, fast processing |
 
 ---
 
 ## Autonomy Rules
 
 **Do automatically:**
-- Archive yesterday's note
-- Create new today.md
-- Extract and categorize tasks from brain dump
+- Archive yesterday
+- Create/update today.md
+- Extract tasks from brain dump
 - Carry forward incomplete items
-- Identify and flag stale items
+- Flag stale items
 
 **Ask first:**
-- Final priority order
+- Priority order confirmation
+- Weekly planning confirmation (Monday)
+- Time block creation
 - Moving items to backlog
-- Archiving or deleting anything
-- Ambiguous categorization
-
----
-
-## Output
-
-After running, report:
-
-```markdown
-# Good morning!
-
-## Status
-- [x] Yesterday archived to daily/archive/2026/01-january/2026-01-13.md
-- [x] Today.md created for Tuesday, January 14
-- [x] Carried forward: 3 incomplete items
-- [x] Brain dump processed: 5 tasks extracted
-
-## ⚠️ Stale Items
-- "Send proposal to Client A" - Must Do for 3 days
-- "Follow up with Bob" - Should Do for 4 days
-
-## Suggested Top 3
-1. Send proposal to Client A (3 days stale, deadline today)
-2. [New from brain dump]
-3. [Carried from yesterday]
-
-Confirm priorities, or tell me what to adjust.
-```
-
----
-
-## Notes
-
-- Staleness flags are reminders, not judgments
-- Some items legitimately stay in Should Do for days
-- The goal is awareness, not guilt
-- Weekly review handles deeper cleanup
