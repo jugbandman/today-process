@@ -1,10 +1,12 @@
-# CLAUDE.md - Today Process
+# CLAUDE.md - Today's Dump
 
-This folder is set up for AI-powered daily planning with Claude Desktop.
+This folder is set up for AI-powered daily planning.
 
 ## What This Is
 
-The Today Process turns your morning brain dump into a structured action plan. Claude reads your notes, tracks what's been sitting, and helps you prioritize.
+Today's Dump turns your morning brain dump into a structured action plan. AI reads your notes, tracks what's been sitting, and helps you prioritize.
+
+**Works with:** Claude Desktop, Claude Code, Cursor, Windsurf, VS Code + Copilot, Nimbalyst, AntiGravity, or any AI with file access.
 
 ## Folder Structure
 
@@ -24,9 +26,9 @@ daily/
 
 1. Open `daily/today.md`
 2. Add your brain dump to the Brain Dump section (voice transcript or typed thoughts)
-3. Ask Claude: "Process my brain dump and suggest priorities"
+3. Ask AI: "Process my brain dump and suggest priorities"
 
-Claude will:
+AI will:
 - Extract action items from your brain dump
 - Categorize into Must Do / Should Do / Could Do / Waiting On
 - Flag any stale items (sitting too long)
@@ -36,13 +38,13 @@ Claude will:
 
 - Check off completed tasks: `- [x]`
 - Add quick notes to the Quick Notes section
-- Ask Claude: "What should I focus on next?"
+- Ask AI: "What should I focus on next?"
 
 ### End of Day
 
-Ask Claude: "Help me wrap up the day"
+Ask AI: "Help me wrap up the day"
 
-Claude will:
+AI will:
 - Summarize what got done
 - Ask what to do with incomplete items (carry forward, backlog, or archive)
 - Prompt for quick reflection
@@ -50,9 +52,9 @@ Claude will:
 
 ### Weekly (Sunday or Monday)
 
-Ask Claude: "Run my weekly review"
+Ask AI: "Run my weekly review"
 
-Claude will:
+AI will:
 - Archive old completed items from backlog
 - Flag items sitting too long
 - Report patterns ("You've skipped Exercise 4 times")
@@ -67,7 +69,7 @@ Claude will:
 
 ## Staleness Tracking
 
-Claude flags items sitting too long:
+AI flags items sitting too long:
 
 | Where | How Long | What Happens |
 |-------|----------|--------------|
@@ -88,14 +90,14 @@ Claude flags items sitting too long:
 ## Extending This System
 
 ### Add Projects
-Create a `projects/` folder with subfolders for each project. Add commitments there and Claude can surface them.
+Create a `projects/` folder with subfolders for each project. Add commitments there and AI can surface them.
 
 ### Add People
 Create a `people/` folder with notes on key people. Reference commitments you owe them.
 
 ### Add Meeting Transcripts
-If using Granola or Otter, save transcripts to a `meetings/` folder. Ask Claude to extract action items.
+If using Granola or Otter, save transcripts to a `meetings/` folder. Ask AI to extract action items.
 
 ---
 
-*This system works because Claude can read and write your files directly. That's the unlock.*
+*This system works because AI can read and write your files directly. That's the unlock.*

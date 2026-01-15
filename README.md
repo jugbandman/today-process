@@ -1,8 +1,8 @@
-# Today Process
+# Today's Dump
 
 An AI-powered daily workflow that turns your morning brain dump into a structured action plan.
 
-**The unlock:** Claude (Desktop or Code) connected to your local files. AI that can read your notes, see what's been sitting, and write your daily plan.
+**The unlock:** AI connected to your local files. Any AI that can read your notes, see what's been sitting, and write your daily plan.
 
 ---
 
@@ -20,7 +20,7 @@ The cognitive load of "figuring out what to do" consumes energy that should go t
 
 ## The Solution
 
-**Connect Claude to your files.** Using Claude Desktop (MCP) or Claude Code, AI gets direct access to your notes folder. It can:
+**Connect AI to your files.** Using any AI tool with file access, you get direct access to your notes folder. It can:
 
 - Read yesterday's note and carry forward incomplete tasks
 - See what's been sitting for 3 days and flag it
@@ -29,7 +29,7 @@ The cognitive load of "figuring out what to do" consumes energy that should go t
 
 **Talk, don't type.** Do a 2-3 minute voice brain dump each morning. Say everything on your mind.
 
-**AI extracts and structures.** Claude reads your transcript and:
+**AI extracts and structures.** Your AI reads your transcript and:
 - Extracts action items
 - Categorizes by priority (Must/Should/Could/Waiting)
 - Flags stale items ("This has been in Must Do for 3 days")
@@ -39,9 +39,9 @@ The cognitive load of "figuring out what to do" consumes energy that should go t
 
 ---
 
-## The Unlock: Claude + Your Files
+## The Unlock: AI + Your Files
 
-This isn't copy/paste to a chatbot. Claude has **direct file access**:
+This isn't copy/paste to a chatbot. AI has **direct file access**:
 
 | Capability | What It Means |
 |------------|---------------|
@@ -50,14 +50,24 @@ This isn't copy/paste to a chatbot. Claude has **direct file access**:
 | **Track** | Knows what's been sitting, what moved, what's stale |
 | **Remind** | "This urgent task has been here 3 days" |
 
-Two ways to connect:
+## Compatible Tools
 
-| Tool | Best For | Setup Time |
-|------|----------|------------|
-| **Claude Desktop + MCP** | Non-coders, simple setup | 30 min |
-| **Claude Code** | Power users, full automation | 1-2 hours |
+Today's Dump works with any AI that can access your local files:
 
-See [Setup Guide](docs/setup-guide.md) for both paths.
+| Tool | Type | File Access |
+|------|------|-------------|
+| **Claude Desktop** | Chat app | MCP filesystem |
+| **Claude Code** | CLI/IDE | Direct + skills |
+| **Claude CoWork** | Collaborative | Workspace files |
+| **Cursor** | IDE | Project files |
+| **Windsurf** | IDE | Project files |
+| **VS Code + Copilot/Continue** | IDE | Workspace |
+| **Nimbalyst** | Automation | Connected folders |
+| **AntiGravity** | Agent | File system access |
+
+**The pattern is the same:** Point the AI at your notes folder, give it a CLAUDE.md (or equivalent instructions file), and it works.
+
+See [Setup Guide](docs/setup-guide.md) for tool-specific setup.
 
 ---
 
@@ -154,7 +164,7 @@ A separate file for someday/maybe items:
 
 ### Weekly Review
 
-Every Sunday (or your chosen day), Claude prompts:
+Every Sunday (or your chosen day), AI prompts:
 
 ```
 It's weekly review time. Let me check your backlog...
@@ -176,7 +186,7 @@ It's weekly review time. Let me check your backlog...
 
 ## Staleness Tracking
 
-Claude tracks how long items sit:
+AI tracks how long items sit:
 
 | Duration | What Happens |
 |----------|--------------|
@@ -193,24 +203,25 @@ This prevents the "infinite todo list" problem.
 
 | Path | Who It's For | Guide |
 |------|--------------|-------|
-| **Claude Desktop + MCP** | Want it simple, comfortable with apps | [Setup Guide](docs/setup-guide.md#claude-desktop) |
-| **Claude Code** | Want full automation, comfortable with terminal | [Setup Guide](docs/setup-guide.md#claude-code) |
-| **Obsidian + Either** | Already use Obsidian | [Setup Guide](docs/setup-guide.md#obsidian-integration) |
+| **Claude Desktop** | Simple chat interface | [Setup Guide](docs/setup-guide.md#claude-desktop) |
+| **Claude Code** | Terminal power users | [Setup Guide](docs/setup-guide.md#claude-code) |
+| **Cursor/Windsurf** | IDE-native workflow | [Setup Guide](docs/setup-guide.md#ide-setup) |
+| **Other AI Tools** | Nimbalyst, AntiGravity, etc. | [Setup Guide](docs/setup-guide.md#other-tools) |
 
 ---
 
 ## Quick Start Options
 
-### Option A: Claude Desktop (Easiest)
+### Option A: Any AI Tool (Easiest)
 
-1. **Download the zip:** [today-process-claude-desktop.zip](today-process-claude-desktop.zip)
+1. **Download the zip:** [todays-dump-starter.zip](todays-dump-starter.zip)
 2. **Extract** to your Documents folder
-3. **Configure MCP** in Claude Desktop (see [setup guide](docs/setup-guide.md))
+3. **Point your AI** at the folder (MCP, workspace, project folder)
 4. **Say:** "Read my CLAUDE.md and help me get started"
 
-The zip includes everything ready to go - just extract and connect.
+The zip includes everything ready to go - just extract and connect. Works with Claude Desktop, Cursor, Windsurf, Nimbalyst, AntiGravity, or any AI with file access.
 
-### Option B: Claude Code (Full Automation)
+### Option B: Claude Code (Full Automation with Skills)
 
 ```bash
 # Clone the repo
@@ -265,7 +276,7 @@ Then use `/start-my-day`, `/end-of-day`, `/weekly-review` commands.
 
 | File | Purpose |
 |------|---------|
-| [today-process-claude-desktop.zip](today-process-claude-desktop.zip) | Ready-to-use folder with all files |
+| [todays-dump-starter.zip](todays-dump-starter.zip) | Ready-to-use folder with all files |
 | [claude-desktop-package/](claude-desktop-package/) | Unzipped version |
 
 ---
@@ -344,26 +355,26 @@ The skills are markdown files - edit them directly:
 Scan inbox for urgent items, add to Must Do if needed.
 ```
 
-Skills live at `~/.claude/skills/{name}/SKILL.md` (Claude Code) or are embedded in CLAUDE.md (Claude Desktop).
+Skills live at `~/.claude/skills/{name}/SKILL.md` (Claude Code) or are embedded in your instructions file (CLAUDE.md, .cursorrules, etc.).
 
 ---
 
 ## FAQ
 
-**Why Claude Desktop/Code instead of ChatGPT?**
-MCP filesystem access. Claude can read/write your actual files. ChatGPT can't (yet).
+**Why not just ChatGPT web?**
+File access. Today's Dump needs AI that can read/write your actual files. ChatGPT web can't (yet). Use Claude Desktop, Cursor, Windsurf, or any AI tool with local file access.
 
 **Do I need Obsidian?**
 No. Any folder with markdown files works. Obsidian adds nice features (linking, plugins) but isn't required.
 
 **What if I skip a day?**
-Claude sees the gap. It'll carry forward incomplete items and note what was missed.
+AI sees the gap. It'll carry forward incomplete items and note what was missed.
 
 **Can I use this with my existing task manager?**
 Yes. This is a *daily planning layer*, not a replacement for Todoist/Things/etc. Use it to decide what matters today.
 
 **What about mobile?**
-Brain dump capture works on mobile (voice memos). Full Claude integration is desktop for now.
+Brain dump capture works on mobile (voice memos). Full AI integration is desktop for now.
 
 **How do I stop the setup questions?**
 Say "stop asking setup questions" - it saves your preference and only asks when you run `/configure-workflow`.
@@ -396,4 +407,4 @@ MIT - Use however you want.
 
 ---
 
-*Created by [Andy Carlson](https://github.com/jugbandman). Built with Claude.*
+*Created by [Andy Carlson](https://github.com/jugbandman). Works with any AI that can access your files.*
