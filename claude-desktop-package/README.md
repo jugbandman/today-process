@@ -68,4 +68,4 @@ AI will learn to surface context from these locations.
 
 ---
 
-*See the main repo for full documentation: https://github.com/jugbandman/today-process*
+*See the main repo for full documentation: https://github.com/jugbandman/todays-dump*

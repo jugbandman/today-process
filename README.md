@@ -225,7 +225,7 @@ The zip includes everything ready to go - just extract and connect. Works with C
 
 ```bash
 # Clone the repo
-git clone https://github.com/jugbandman/today-process.git
+git clone https://github.com/jugbandman/todays-dump.git
 
 # Create skill folders
 mkdir -p ~/.claude/skills/start-my-day
