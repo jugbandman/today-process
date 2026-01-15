@@ -256,6 +256,7 @@ Then use `/start-my-day`, `/end-of-day`, `/weekly-review` commands.
 | [end-of-day.skill.md](templates/end-of-day.skill.md) | Daily wrap up with reflections |
 | [weekly-review.skill.md](templates/weekly-review.skill.md) | Weekly backlog cleanup |
 | [claude-desktop-config.json](templates/claude-desktop-config.json) | MCP filesystem config |
+| [extensions/time-tracking.md](templates/extensions/time-tracking.md) | Client time tracking for invoicing |
 
 ### Documentation
 
@@ -337,6 +338,7 @@ Configuration saved to `.today-process-config.md` - edit anytime.
 |-----------|---------------|
 | **Task categories** | Edit template: MoSCoW, Eisenhower, or custom |
 | **Staleness thresholds** | Edit skill: change 2-day, 3-day, 7-day defaults |
+| **Client time tracking** | Add `_timelog.md` per client for invoicing (see [time-tracking.md](templates/extensions/time-tracking.md)) |
 | **Meeting integration** | Add Granola, Otter, or custom transcript folder |
 | **Project surfacing** | Add `projects/` folder with MOCs |
 | **People tracking** | Add `people/` folder with commitments |

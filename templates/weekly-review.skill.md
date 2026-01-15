@@ -50,7 +50,38 @@ Read last 5-7 daily notes from archive. Look for:
    - What categories get done vs skipped
    - Time of week patterns
 
-### Phase 3: Present Findings
+### Phase 3: Time Tracking Audit (Optional Extension)
+
+If time tracking is enabled, check for missing entries this week:
+
+1. **Scan last 7 daily notes** - Find completed client work
+2. **Check client timelogs** - Verify entries exist for each day
+
+**If gaps found:**
+
+```markdown
+## ⚠️ Missing Time Entries
+
+**Monday 2026-01-13**
+- Client A: "Research task" (no time logged)
+
+**Wednesday 2026-01-15**
+- Client B: "Meeting prep" (no time logged)
+
+Fill in missing time? (enter estimates or "skip")
+```
+
+**Weekly summary:**
+```markdown
+## Week's Time Summary
+
+**Client A:** 6.5h (Mon 2h, Tue 1.5h, Thu 3h)
+**Client B:** 2.0h (Wed 2h)
+
+Ready for spreadsheet export.
+```
+
+### Phase 4: Present Findings
 
 Output format:
 
@@ -88,7 +119,7 @@ Output format:
 What would you like to do with these items?
 ```
 
-### Phase 4: Process Decisions
+### Phase 5: Process Decisions
 
 Based on user response:
 
@@ -108,7 +139,7 @@ Based on user response:
 - Remove from backlog entirely
 - (Only if user explicitly confirms)
 
-### Phase 5: Plan the Week
+### Phase 6: Plan the Week
 
 After cleanup, ask:
 

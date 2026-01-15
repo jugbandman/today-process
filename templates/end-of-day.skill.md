@@ -66,7 +66,33 @@ Which? [1/2/3]
 - Format: `- [x] Send proposal (archived YYYY-MM-DD: [reason])`
 - Ask for brief reason
 
-### Phase 3: Capture Reflections
+### Phase 3: Client Time Tracking (Optional Extension)
+
+If you bill clients by the hour, ask about time spent:
+
+```markdown
+## Time Tracking
+
+I noticed work on paying clients today:
+
+**Client A**
+- "Research task" - completed
+- "Meeting prep" - completed
+
+Estimated time? (e.g., "2h", "1.5h", or "skip")
+> [User input]
+```
+
+**Log entries to:** `projects/client-name/_timelog.md`
+
+**Entry format:**
+```markdown
+| 2026-01-14 | 2.0 | Research, meeting prep |
+```
+
+**Skip if:** No client work, user says "skip", or time tracking not enabled.
+
+### Phase 4: Capture Reflections
 
 Prompt for reflections:
 
@@ -85,7 +111,7 @@ Quick reflection time.
 
 Update today.md End of Day Reflection section.
 
-### Phase 4: Capture Learnings
+### Phase 5: Capture Learnings
 
 ```
 Any learnings worth noting?
@@ -98,7 +124,7 @@ If learnings provided:
 - Add to today.md Quick Notes
 - Optionally append to `_learnings.md` with date
 
-### Phase 5: Tomorrow's Focus
+### Phase 6: Tomorrow's Focus
 
 Based on:
 - Carried forward items
@@ -120,7 +146,7 @@ Note these for tomorrow morning? (yes/adjust/skip)
 
 If yes, add to today.md or create a `tomorrow-focus.md` temp file.
 
-### Phase 6: Final Updates
+### Phase 7: Final Updates
 
 1. **Update today.md**
    - Fill in End of Day Reflection

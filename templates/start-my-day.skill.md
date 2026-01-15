@@ -138,7 +138,31 @@ Check:
 - Today.md status (exists? what date?)
 - Days since last archive
 
-### Phase 2: Staleness Check
+### Phase 2: Yesterday's Time Check (Optional Extension)
+
+If time tracking is enabled, check if time was logged yesterday:
+
+1. **Read yesterday's archived note** - Was end-of-day run?
+2. **Check client timelogs** - Any entry for yesterday's date?
+
+**If no time logged and client work was done:**
+
+```markdown
+## ⚠️ Missing Time Entry
+
+Yesterday's note shows client work completed but no time logged:
+
+**Client A**
+- "Research task" - completed
+- "Meeting prep" - completed
+
+Estimated time for yesterday? (e.g., "2h", "skip")
+> [User input]
+```
+
+**Skip if:** Time already logged, no client work yesterday, or time tracking not enabled.
+
+### Phase 3: Staleness Check
 
 Read recent archived notes. Flag:
 
@@ -149,7 +173,7 @@ Read recent archived notes. Flag:
 | Waiting On | 7+ days | "[task] - waiting [N] days" |
 | Recurring | 4+ times | "[task] - skipped [N] times" |
 
-### Phase 3: Archive Yesterday
+### Phase 4: Archive Yesterday
 
 If today.md exists with old date:
 
@@ -157,7 +181,7 @@ If today.md exists with old date:
 2. Move to `archive/YYYY/MM-month/`
 3. Record incomplete items for carry forward
 
-### Phase 4: Create Today.md
+### Phase 5: Create Today.md
 
 1. Copy from template
 2. Set date, previous note link
@@ -166,7 +190,7 @@ If today.md exists with old date:
    - Add: `(carried from [date])`
 5. Check backlog "This Week" for suggestions
 
-### Phase 5: Process Brain Dump
+### Phase 6: Process Brain Dump
 
 If brain dump provided:
 
@@ -176,7 +200,7 @@ If brain dump provided:
 4. **Deduplicate** - Check against carried items and backlog
 5. **Update tasks section**
 
-### Phase 6: Suggest Priorities
+### Phase 7: Suggest Priorities
 
 Based on:
 1. Stale items (they've been waiting)
@@ -193,7 +217,7 @@ Suggested Top 3:
 Confirm or adjust?
 ```
 
-### Phase 7: Time Blocking (Optional)
+### Phase 8: Time Blocking (Optional)
 
 If calendar connected, offer:
 
