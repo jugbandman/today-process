@@ -277,3 +277,108 @@ Confirm priorities? (yes/adjust)
 - Weekly planning confirmation (Monday)
 - Time block creation
 - Moving items to backlog
+
+---
+
+## Adaptive Onboarding
+
+The skill learns your workflow over time.
+
+### First Run Detection
+
+Check for config file at `daily/.today-process-config.md`. If not found:
+
+```markdown
+## Welcome to Today Process!
+
+I'll ask a few questions to customize your workflow. You can always
+run `/configure-workflow` later to change these.
+
+**Question 1/4:** Where are your notes stored?
+> [Current directory looks like: /path/to/vault]
+> Is this correct? (y/n/specify different path)
+
+**Question 2/4:** Do you use meeting transcription?
+> 1. Granola
+> 2. Otter.ai
+> 3. Other (specify)
+> 4. None
+
+**Question 3/4:** What task categories do you prefer?
+> 1. MoSCoW (Must/Should/Could/Waiting) - recommended
+> 2. Eisenhower (Urgent+Important matrix)
+> 3. Simple (High/Medium/Low)
+
+**Question 4/4:** Enable staleness tracking?
+> Flags items sitting too long (2+ days Must Do, etc.)
+> (y/n)
+```
+
+### Config File Format
+
+After setup, create `daily/.today-process-config.md`:
+
+```markdown
+---
+created: YYYY-MM-DD
+last_modified: YYYY-MM-DD
+setup_complete: true
+asking_questions: true
+---
+
+# Today Process Configuration
+
+## Paths
+- vault: /path/to/vault
+- today: daily/today.md
+- archive: daily/archive/YYYY/MM-month/
+- backlog: daily/_backlog.md
+
+## Features
+- meeting_transcription: granola
+- task_categories: moscow
+- staleness_tracking: true
+- monday_planning: true
+- end_of_day_reflections: true
+
+## Preferences
+- asking_questions: true
+- last_suggestion_date: YYYY-MM-DD
+```
+
+### Ongoing Refinement
+
+After 5+ uses, skill may offer suggestions based on patterns:
+
+```markdown
+## Workflow Suggestion
+
+I noticed a pattern in your usage:
+- You often add brain dumps in the afternoon after meetings
+- Morning brain dumps are usually short
+
+**Suggestion:** Want me to re-scan for new brain dump content
+when you run /end-of-day too?
+
+> (y/n/stop asking suggestions)
+```
+
+If user says "stop asking":
+- Set `asking_questions: false` in config
+- Only ask when explicitly running `/configure-workflow`
+
+### Smart Recognition
+
+Skill watches for helpful patterns and offers to codify them:
+
+```markdown
+## Pattern Detected
+
+You've manually added "Review Granola transcripts" to your
+Top 3 priorities for 4 of the last 5 days.
+
+**Suggestion:** Want me to automatically include Granola
+review in your morning routine?
+
+> (y/n/stop asking)
+```

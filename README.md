@@ -199,31 +199,74 @@ This prevents the "infinite todo list" problem.
 
 ---
 
-## Templates
+## Quick Start Options
 
-Ready to copy to your setup:
+### Option A: Claude Desktop (Easiest)
 
-| Template | Purpose |
-|----------|---------|
-| [daily-template.md](templates/daily-template.md) | Daily note structure |
-| [backlog-template.md](templates/backlog-template.md) | Backlog with Done section |
-| [start-my-day.skill.md](templates/start-my-day.skill.md) | Morning routine + Monday planning |
-| [end-of-day.skill.md](templates/end-of-day.skill.md) | Daily wrap up + reflections |
-| [weekly-review.skill.md](templates/weekly-review.skill.md) | Weekly backlog cleanup |
-| [claude-desktop-config.json](templates/claude-desktop-config.json) | MCP filesystem setup |
+1. **Download the zip:** [today-process-claude-desktop.zip](today-process-claude-desktop.zip)
+2. **Extract** to your Documents folder
+3. **Configure MCP** in Claude Desktop (see [setup guide](docs/setup-guide.md))
+4. **Say:** "Read my CLAUDE.md and help me get started"
 
-### Skills Quick Install (Claude Code)
+The zip includes everything ready to go - just extract and connect.
+
+### Option B: Claude Code (Full Automation)
 
 ```bash
+# Clone the repo
+git clone https://github.com/jugbandman/today-process.git
+
 # Create skill folders
 mkdir -p ~/.claude/skills/start-my-day
 mkdir -p ~/.claude/skills/end-of-day
 mkdir -p ~/.claude/skills/weekly-review
 
-# Download skills (replace with actual paths after cloning)
-# Copy templates/*.skill.md to ~/.claude/skills/[name]/SKILL.md
-# Edit paths in each skill to match your setup
+# Copy skills
+cp today-process/templates/start-my-day.skill.md ~/.claude/skills/start-my-day/SKILL.md
+cp today-process/templates/end-of-day.skill.md ~/.claude/skills/end-of-day/SKILL.md
+cp today-process/templates/weekly-review.skill.md ~/.claude/skills/weekly-review/SKILL.md
+
+# Edit paths in each skill to match your vault location
 ```
+
+Then use `/start-my-day`, `/end-of-day`, `/weekly-review` commands.
+
+---
+
+## What's In This Repo
+
+### Templates (Copy These)
+
+| File | Purpose |
+|------|---------|
+| [daily-template.md](templates/daily-template.md) | Daily note structure |
+| [backlog-template.md](templates/backlog-template.md) | Backlog with Done section |
+| [start-my-day.skill.md](templates/start-my-day.skill.md) | Morning routine with adaptive onboarding |
+| [end-of-day.skill.md](templates/end-of-day.skill.md) | Daily wrap up with reflections |
+| [weekly-review.skill.md](templates/weekly-review.skill.md) | Weekly backlog cleanup |
+| [claude-desktop-config.json](templates/claude-desktop-config.json) | MCP filesystem config |
+
+### Documentation
+
+| File | Purpose |
+|------|---------|
+| [docs/setup-guide.md](docs/setup-guide.md) | Full setup for Desktop and Code |
+| [docs/extensions.md](docs/extensions.md) | Optional features (calendar, time blocking) |
+| [docs/cheat-sheet.md](docs/cheat-sheet.md) | Quick reference |
+
+### Examples
+
+| File | Purpose |
+|------|---------|
+| [examples/what-you-can-do.md](examples/what-you-can-do.md) | Real scenarios and AI responses |
+| [examples/implementation-example.md](examples/implementation-example.md) | Complete implementation walkthrough |
+
+### Claude Desktop Package
+
+| File | Purpose |
+|------|---------|
+| [today-process-claude-desktop.zip](today-process-claude-desktop.zip) | Ready-to-use folder with all files |
+| [claude-desktop-package/](claude-desktop-package/) | Unzipped version |
 
 ---
 
@@ -247,6 +290,64 @@ Weekly: backlog review, clean up stale items
 
 ---
 
+## Intelligent Features
+
+### In-Progress Mode
+
+Run `/start-my-day` multiple times - it won't recreate your file. If today.md exists for today, it:
+- Scans for new brain dump content
+- Checks for completed tasks
+- Looks for new meeting transcripts
+- Offers to update your priorities
+
+### Monday Planning
+
+On Mondays, `/start-my-day` automatically adds weekly planning:
+- Reviews last week's completed and carried items
+- Checks backlog for stale items
+- Suggests weekly priorities before daily
+
+### Adaptive Onboarding
+
+Skills learn your workflow over time:
+
+**First run:** Asks setup questions (paths, features, preferences)
+**Ongoing:** May ask 1-2 refinement questions based on patterns
+**Pattern recognition:** "You've skipped Exercise 4 times - different approach?"
+**User control:** Say "stop asking" to disable suggestions
+
+Configuration saved to `.today-process-config.md` - edit anytime.
+
+---
+
+## What's Extendable
+
+| Component | How to Extend |
+|-----------|---------------|
+| **Task categories** | Edit template: MoSCoW, Eisenhower, or custom |
+| **Staleness thresholds** | Edit skill: change 2-day, 3-day, 7-day defaults |
+| **Meeting integration** | Add Granola, Otter, or custom transcript folder |
+| **Project surfacing** | Add `projects/` folder with MOCs |
+| **People tracking** | Add `people/` folder with commitments |
+| **Calendar** | Connect via MCP for time blocking |
+| **Reflections** | Enable/disable in config |
+| **Questions** | Disable adaptive questions anytime |
+
+### Adding Your Own Features
+
+The skills are markdown files - edit them directly:
+
+```markdown
+## My Custom Phase
+
+### Phase X: Check Email
+Scan inbox for urgent items, add to Must Do if needed.
+```
+
+Skills live at `~/.claude/skills/{name}/SKILL.md` (Claude Code) or are embedded in CLAUDE.md (Claude Desktop).
+
+---
+
 ## FAQ
 
 **Why Claude Desktop/Code instead of ChatGPT?**
@@ -264,11 +365,19 @@ Yes. This is a *daily planning layer*, not a replacement for Todoist/Things/etc.
 **What about mobile?**
 Brain dump capture works on mobile (voice memos). Full Claude integration is desktop for now.
 
+**How do I stop the setup questions?**
+Say "stop asking setup questions" - it saves your preference and only asks when you run `/configure-workflow`.
+
+**Can I customize everything?**
+Yes. Skills are markdown files. Edit paths, thresholds, categories, phases - anything you want.
+
 ---
 
 ## Examples
 
-See a real implementation: [examples/implementation-example.md](examples/implementation-example.md)
+See real scenarios and AI responses: [examples/what-you-can-do.md](examples/what-you-can-do.md)
+
+See a complete implementation: [examples/implementation-example.md](examples/implementation-example.md)
 
 ---
 
